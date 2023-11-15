@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import es.unex.giis.asee.gepeto.adapters.FavoritasAdapter
-import es.unex.giis.asee.gepeto.data.recetasPrueba
 import es.unex.giis.asee.gepeto.databinding.FragmentFavoritasBinding
 import es.unex.giis.asee.gepeto.model.Receta
 
@@ -58,7 +57,7 @@ class FavoritasFragment : Fragment() {
 
 
     private fun setUpRecyclerView() {
-        adapter = FavoritasAdapter(recetas = recetasPrueba, onClick = {
+        adapter = FavoritasAdapter(recetas = emptyList(), onClick = {
             listener.onReceta2Click(it)
         },
             onLongClick = {
@@ -69,7 +68,6 @@ class FavoritasFragment : Fragment() {
             rvFavoritasList.layoutManager = LinearLayoutManager(context)
             rvFavoritasList.adapter = adapter
         }
-        android.util.Log.d("FavoritasFragment", "setUpRecyclerView")
     }
 
     override fun onDestroyView() {

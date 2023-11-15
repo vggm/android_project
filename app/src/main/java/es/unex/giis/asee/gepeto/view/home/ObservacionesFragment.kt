@@ -1,7 +1,6 @@
 package es.unex.giis.asee.gepeto.view.home
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,21 +8,18 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
-import es.unex.giis.asee.gepeto.R
 import es.unex.giis.asee.gepeto.api.APIError
 import es.unex.giis.asee.gepeto.api.getNetworkService
 import es.unex.giis.asee.gepeto.data.Session
 import es.unex.giis.asee.gepeto.data.api.Recipes
 import es.unex.giis.asee.gepeto.data.api.RecipesItem
-import es.unex.giis.asee.gepeto.data.recetasPrueba
-import es.unex.giis.asee.gepeto.data.toShowRecipe
+import es.unex.giis.asee.gepeto.data.toRecipe
+import es.unex.giis.asee.gepeto.database.GepetoDatabase
 import es.unex.giis.asee.gepeto.databinding.FragmentObservacionesBinding
 import es.unex.giis.asee.gepeto.model.Receta
-import es.unex.giis.asee.gepeto.utils.BACKGROUND
 import kotlinx.coroutines.launch
 import java.lang.RuntimeException
 import kotlin.random.Random
-import java.util.StringJoiner
 import java.util.TreeSet
 
 
@@ -34,6 +30,7 @@ class ObservacionesFragment : Fragment() {
     private lateinit var _binding: FragmentObservacionesBinding
 
     private var _recipe : Receta? = null
+    private lateinit var db: GepetoDatabase
 
     private val binding get() = _binding
     private lateinit var listener: OnGenerarRecetaListener
@@ -53,6 +50,7 @@ class ObservacionesFragment : Fragment() {
 
     override fun onAttach(context: android.content.Context) {
         super.onAttach(context)
+        db = GepetoDatabase.getInstance(context)!!
         if ( context is OnGenerarRecetaListener) {
             listener = context
         } else {
@@ -73,7 +71,7 @@ class ObservacionesFragment : Fragment() {
                     if (_recipe == null){
                         try {
 
-                            _recipe = fetchMeal().toShowRecipe()
+                            _recipe = fetchMeal().toRecipe()
                             print(_recipe)
                         } catch (e: APIError) {
                             Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
@@ -82,33 +80,18 @@ class ObservacionesFragment : Fragment() {
                 }
             }
 
-
-            equipamiento.text = _recipe?.equipamientos?.joinToString(", ") ?: ""
+            equipamiento.text = equipamientoSet.joinToString(separator = ", ", postfix = "."  )
 
             crearRecetaBtn.setOnClickListener {
-                //val ingredientes = args.ingredientes.removeSuffix(".").split(", ")
 
-                val ingredientes = _recipe?.ingredientes ?: emptyList()
+                if (_recipe != null) {
 
-                val equipamiento = _recipe?.equipamientos ?: emptyList()
+                    lifecycleScope.launch {
+                        db.recetaDao().insertAndRelate(_recipe!!, 1)
+                    }
 
-                val observaciones= observacionesInput.text.toString()
-
-                val receta = _recipe
-
-                if (receta != null) {
-                    listener.onGenerarRecetaClick(receta)
-                }
-                else{
-                    val ingredientes = "No hay recetas disponibles con esos ingredientes"
-
-                    val equipamiento = "No hay recetas disponibles con esos equipamientos"
-
-                    val observaciones= observacionesInput.text.toString()
-
-                    val receta = receta
-
-                    //listener.onGenerarRecetaClick(receta)
+                    listener.onGenerarRecetaClick(_recipe!!)
+                    return@setOnClickListener
                 }
             }
         }
@@ -134,17 +117,9 @@ class ObservacionesFragment : Fragment() {
 
 
         } catch (cause: Throwable) {
-            throw APIError("Error al obtener los datos", cause)
+            throw APIError("No existe una receta con esos ingredientes!", cause)
         }
 
         return recipe
-    }
-
-    private fun generarReceta( ingredientes: List<String>, equipamiento: List<String>, observaciones: String ): Receta {
-        Log.w("ingredientes", ingredientes.toString())
-        Log.w("equipamiento", equipamiento.toString())
-        Log.w("observaciones", observaciones)
-
-        return recetasPrueba.get(Random.nextInt(0, recetasPrueba.size))
     }
 }

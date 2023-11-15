@@ -25,7 +25,7 @@ class HistorialAdapter(
         fun bind(receta: Receta, totalItems: Int) {
             with(binding) {
                 recetaNombre.text = receta.nombre
-                recetaIngredientes.text = receta.getIngredientes()
+                recetaIngredientes.text = receta.getIngredientesPreview()
 
                 //parsea la imagen a int
 

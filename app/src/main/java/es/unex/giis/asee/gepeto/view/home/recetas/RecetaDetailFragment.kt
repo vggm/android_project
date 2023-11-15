@@ -12,9 +12,8 @@ import com.bumptech.glide.Glide
 import es.unex.giis.asee.gepeto.R
 import es.unex.giis.asee.gepeto.api.APIError
 import es.unex.giis.asee.gepeto.api.getNetworkService
-import es.unex.giis.asee.gepeto.data.api.Equipment
 import es.unex.giis.asee.gepeto.data.api.Instructions
-import es.unex.giis.asee.gepeto.data.toShowRecipe
+import es.unex.giis.asee.gepeto.data.toRecipe
 import es.unex.giis.asee.gepeto.databinding.FragmentRecetaDetailBinding
 import es.unex.giis.asee.gepeto.model.Equipamiento
 import es.unex.giis.asee.gepeto.model.Pasos
@@ -56,7 +55,7 @@ class RecetaDetailFragment : Fragment() {
             if (_steps.isEmpty()){
 
                 try {
-                    _steps = fetchPasos().filterNotNull().map { it.toShowRecipe() }
+                    _steps = fetchPasos().filterNotNull().map { it.toRecipe() }
 
                     val descripcionText = _steps.flatMap { it.descripcion }.joinToString("\n\n - ", prefix = "Pasos:\n\n - ")
 
@@ -72,7 +71,7 @@ class RecetaDetailFragment : Fragment() {
 
         binding.recetaDetalleEquipamientos.text = receta.listaEquipamiento()
 
-        binding.recetaDetalleIngredientes.text = receta.listaIngredientes()
+        binding.recetaDetalleIngredientes.text = receta.listaIngredientesDetalles()
 
 
         //binding.recetaDetalleImagen.setImageResource(receta.imagen)
@@ -104,7 +103,7 @@ class RecetaDetailFragment : Fragment() {
         val receta = args.receta
         try {
             // Utiliza la letra aleatoria en la llamada a la API
-            pasos = getNetworkService().getMealSteps(receta.idReceta)
+            pasos = getNetworkService().getMealSteps(receta.recetaId.toString())
 
         } catch (cause: Throwable) {
             throw APIError("Error al obtener los datos", cause)

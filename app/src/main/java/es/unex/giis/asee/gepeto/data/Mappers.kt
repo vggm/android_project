@@ -8,7 +8,7 @@ import es.unex.giis.asee.gepeto.model.Ingrediente
 import es.unex.giis.asee.gepeto.model.Pasos
 import es.unex.giis.asee.gepeto.model.Receta
 
-fun RecipesItem.toShowRecipe() = Receta(
+fun RecipesItem.toRecipe() = Receta(
     /*
     val idReceta: String,
     val nombre: String,
@@ -19,21 +19,21 @@ fun RecipesItem.toShowRecipe() = Receta(
     val imagen: Int,
     val imagenPath: String
      */
-    idReceta = id.toString(),
+    recetaId = id,
     nombre = title ?: "",
-    descripcion = emptyList(),
+    descripcion = "",
     favorita = false,
     //apend de usedIngredients, missedIngredients, unusedIngredients
-    ingredientes = usedIngredients.map { it.name } + missedIngredients.map { it.name },
-    equipamientos = emptyList(),
+    ingredientes = (usedIngredients.map { it.name } + missedIngredients.map { it.name }).joinToString (separator = ";"),
+    equipamientos = "",
     imagen = R.drawable.plato_ejemplo,
     imagenPath = image ?: ""
 )
 
-fun Ingredient.toShowIngredients() = Ingrediente(
+fun Ingredient.toIngredients() = Ingrediente(
     nombre = strIngredient ?: "",
 )
 
-fun StepsItem.toShowRecipe() = Pasos (
-    descripcion = steps.map { it.step},
+fun StepsItem.toRecipe() = Pasos (
+    descripcion = steps.map { it.step },
 )

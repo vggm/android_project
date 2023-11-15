@@ -20,7 +20,7 @@ class FavoritasAdapter(
         fun bind(receta: Receta, totalItems: Int) {
             with(binding) {
                 recetaNombre.text = receta.nombre
-                recetaIngredientes.text = receta.getIngredientes()
+                recetaIngredientes.text = receta.getIngredientesPreview()
                 recetaImg.setImageResource(receta.imagen)
                 clItem.setOnClickListener {
                     onClick(receta)

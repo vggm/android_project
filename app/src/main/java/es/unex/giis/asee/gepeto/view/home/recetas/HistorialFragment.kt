@@ -1,5 +1,6 @@
 package es.unex.giis.asee.gepeto.view.home.recetas
 
+import android.opengl.Visibility
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,7 +13,8 @@ import es.unex.giis.asee.gepeto.adapters.HistorialAdapter
 import es.unex.giis.asee.gepeto.api.APIError
 import es.unex.giis.asee.gepeto.api.getNetworkService
 import es.unex.giis.asee.gepeto.data.api.Recipes
-import es.unex.giis.asee.gepeto.data.toShowRecipe
+import es.unex.giis.asee.gepeto.data.toRecipe
+import es.unex.giis.asee.gepeto.database.GepetoDatabase
 import es.unex.giis.asee.gepeto.databinding.FragmentHistorialBinding
 import es.unex.giis.asee.gepeto.model.Receta
 import kotlinx.coroutines.launch
@@ -20,7 +22,8 @@ import kotlinx.coroutines.launch
 
 class HistorialFragment : Fragment() {
 
-    private var _recipes: List<Receta> = emptyList()
+    private var recetas: List<Receta> = emptyList()
+    private lateinit var db: GepetoDatabase
 
     private lateinit var listener: OnRecetaClickListener
     interface OnRecetaClickListener {
@@ -33,6 +36,7 @@ class HistorialFragment : Fragment() {
 
     override fun onAttach(context: android.content.Context) {
         super.onAttach(context)
+        db = GepetoDatabase.getInstance(context)!!
         if (context is OnRecetaClickListener) {
             listener = context
         } else {
@@ -52,46 +56,26 @@ class HistorialFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        obtenerRecetasFromDB()
         setUpRecyclerView()
-
-        if (_recipes.isEmpty()) {
-
-            binding.spinner.visibility = View.VISIBLE
-
-            lifecycleScope.launch {
-                if (_recipes.isEmpty()){
-                    binding.spinner.visibility = View.VISIBLE
-
-                    try {
-                        _recipes = fetchMeals().filterNotNull().map { it.toShowRecipe() }
-                        adapter.updateData(_recipes)
-                    } catch (e: APIError) {
-                        Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
-                    } finally {
-                        binding.spinner.visibility = View.GONE
-                    }
-                }
-            }
-        }
     }
 
-    private suspend fun fetchMeals(): Recipes{
-        var recipes: Recipes
-        try {
-            // Genera una letra aleatoria en minúsculas
+    private fun obtenerRecetasFromDB() {
+        lifecycleScope.launch {
 
-            // Utiliza la letra aleatoria en la llamada a la API
-            recipes = getNetworkService().getMealByIngredients(ingredients = "flour,+sugar")
+            recetas = db.recetaDao().getUserConRecetas(1).recetas ?: emptyList()
+            if ( recetas.isEmpty() ) {
+                Toast.makeText(context, "No hay recetas en la base de datos", Toast.LENGTH_SHORT).show()
+            }
+            adapter.updateData(recetas)
+            binding.spinner.visibility = View.GONE
 
-        } catch (cause: Throwable) {
-            throw APIError("Error al obtener los datos", cause)
         }
-
-        return recipes
     }
 
     private fun setUpRecyclerView() {
-        adapter = HistorialAdapter(recetas = _recipes, onClick = {
+        adapter = HistorialAdapter(recetas = recetas, onClick = {
             listener.onRecetaClick(it)
         },
             onLongClick = {
