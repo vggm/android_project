@@ -12,7 +12,9 @@ import com.bumptech.glide.Glide
 import es.unex.giis.asee.gepeto.R
 import es.unex.giis.asee.gepeto.api.APIError
 import es.unex.giis.asee.gepeto.api.getNetworkService
+import es.unex.giis.asee.gepeto.data.api.Equipments
 import es.unex.giis.asee.gepeto.data.api.Instructions
+import es.unex.giis.asee.gepeto.data.toEquipamiento
 import es.unex.giis.asee.gepeto.data.toRecipe
 import es.unex.giis.asee.gepeto.databinding.FragmentRecetaDetailBinding
 import es.unex.giis.asee.gepeto.model.Equipamiento
@@ -67,9 +69,30 @@ class RecetaDetailFragment : Fragment() {
             }
         }
 
+        lifecycleScope.launch {
+            if (_equipments.isEmpty()){
+
+                try {
+                    _equipments = listOf(fetchEquipamiento().toEquipamiento())
+
+                    println(_equipments)
+
+                    val equipamientoText = _equipments.flatMap { it.descripcion }.joinToString("\n\n - ", prefix = "Equipamiento:\n\n - ")
+
+                    binding.recetaDetalleEquipamientos.text = equipamientoText
+
+                } catch (e: APIError) {
+                    Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        //Espero 1s
+        Thread.sleep(1000)
+
         //binding.recetaDetalleDescripcion.text = receta.showDescripcion()
 
-        binding.recetaDetalleEquipamientos.text = receta.listaEquipamiento()
+        //binding.recetaDetalleEquipamientos.text = receta.listaEquipamiento()
 
         binding.recetaDetalleIngredientes.text = receta.listaIngredientesDetalles()
 
@@ -105,10 +128,28 @@ class RecetaDetailFragment : Fragment() {
             // Utiliza la letra aleatoria en la llamada a la API
             pasos = getNetworkService().getMealSteps(receta.recetaId.toString())
 
+            println(pasos)
+            println(receta.recetaId.toString())
         } catch (cause: Throwable) {
             throw APIError("Error al obtener los datos", cause)
         }
 
         return pasos
+    }
+
+    private suspend fun fetchEquipamiento(): Equipments {
+        val receta = args.receta
+        val equipamiento : Equipments
+        try {
+            equipamiento = getNetworkService().getMealEquipments(receta.recetaId.toString())
+
+            if (equipamiento.equipment.isEmpty()){
+                throw APIError("No hay equipamiento para esta receta", null)
+            }
+
+            return equipamiento
+        } catch (cause: Throwable) {
+            throw APIError("Error al obtener los datos del equipamiento", cause)
+        }
     }
 }

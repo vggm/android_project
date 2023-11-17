@@ -1,8 +1,8 @@
 package es.unex.giis.asee.gepeto.data.api
 
+import com.google.gson.annotations.SerializedName
+
 data class Equipment(
-    val id: Int,
-    val image: String,
-    val name: String,
-    val temperature: Temperature
+    @SerializedName("name"  ) var name  : String,
+    @SerializedName("image" ) var image : String
 )

@@ -1,8 +1,8 @@
 package es.unex.giis.asee.gepeto.api
 
+import es.unex.giis.asee.gepeto.data.api.Equipments
 import es.unex.giis.asee.gepeto.data.api.Recipes
 import es.unex.giis.asee.gepeto.data.api.Instructions
-import es.unex.giis.asee.gepeto.model.Pasos
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.converter.gson.GsonConverterFactory
@@ -55,6 +55,10 @@ interface MealsAPI {
     //GET https://api.spoonacular.com/recipes/{id}/analyzedInstructions
     @GET("{id}/analyzedInstructions?"+ apikey)
     suspend fun getMealSteps(@Path("id") id: String): Instructions
+
+    //GET https://api.spoonacular.com/recipes/1003464/equipmentWidget.json
+    @GET("{id}/equipmentWidget.json?" + apikey)
+    suspend fun getMealEquipments(@Path("id") id: String): Equipments
 
 }
 class APIError(message: String, cause: Throwable?) : Throwable(message, cause)
