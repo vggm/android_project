@@ -12,13 +12,13 @@ import es.unex.giis.asee.gepeto.model.Receta
 
 fun RecipesItem.toRecipe() = Receta(
     recetaId = id,
-    nombre = title ?: "",
+    nombre = title ,
     descripcion = "",
     favorita = false,
     ingredientes = (usedIngredients.map { it.name } + missedIngredients.map { it.name }).joinToString (separator = ";"),
     equipamientos = "",
     imagen = R.drawable.plato_ejemplo,
-    imagenPath = image ?: ""
+    imagenPath = image
 )
 
 fun Ingredient.toIngredients() = Ingrediente(
