@@ -77,7 +77,8 @@ class RecetaDetailFragment : Fragment() {
 
                     println(_equipments)
 
-                    val equipamientoText = _equipments.flatMap { it.descripcion }.joinToString("\n\n - ", prefix = "Equipamiento:\n\n - ")
+                    val equipamientoText = _equipments.flatMap { it.descripcion.map { desc -> desc.trim().capitalize() } }
+                        .joinToString("\n\n - ", prefix = "Equipamiento:\n\n - ")
 
                     binding.recetaDetalleEquipamientos.text = equipamientoText
 

@@ -25,10 +25,12 @@ data class Receta(
             "No hay ingredientes."
         } else {
             //Si hay ingredientes, los devolvemos separados por "-"
-            ingredientesNoVacios.joinToString(
+            val ingredientesConMayuscula = ingredientesNoVacios.map { it.trim().capitalize() }
+
+            ingredientesConMayuscula.joinToString(
                 separator = ", ",
                 postfix = ".",
-                prefix = "Ingredientes: ",
+                prefix = "Ingredientes: "
             )
         }
     }
@@ -39,7 +41,9 @@ data class Receta(
             "No hay ingredientes."
         } else {
             //Si hay ingredientes, los devolvemos separados por "-"
-            "Ingredientes:\n\n - " + ingredientes.split(";").joinToString(
+            val ingredientesConMayuscula = ingredientes.split(";").map { it.trim().capitalize() }
+
+            "Ingredientes:\n\n - " + ingredientesConMayuscula.joinToString(
                 separator = "\n - "
             )
         }
