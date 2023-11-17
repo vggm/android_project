@@ -143,8 +143,10 @@
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="10dp"
             android:layout_marginTop="5dp"
-            android:text="Crear Receta"
-            android:textSize="22sp"/>
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:text="@string/crear_receta_button"
+            android:textSize="19sp"/>
 
     </RelativeLayout>
 

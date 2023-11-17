@@ -1,5 +1,6 @@
 package es.unex.giis.asee.gepeto.view.home.recetas
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -16,6 +17,7 @@ import es.unex.giis.asee.gepeto.data.api.Equipments
 import es.unex.giis.asee.gepeto.data.api.Instructions
 import es.unex.giis.asee.gepeto.data.toEquipamiento
 import es.unex.giis.asee.gepeto.data.toRecipe
+import es.unex.giis.asee.gepeto.database.GepetoDatabase
 import es.unex.giis.asee.gepeto.databinding.FragmentRecetaDetailBinding
 import es.unex.giis.asee.gepeto.model.Equipamiento
 import es.unex.giis.asee.gepeto.model.Pasos
@@ -33,6 +35,12 @@ class RecetaDetailFragment : Fragment() {
     private var _steps: List<Pasos> = emptyList()
 
     private var _equipments: List<Equipamiento> = emptyList()
+    private lateinit var db: GepetoDatabase
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        db = GepetoDatabase.getInstance(context)!!
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -111,15 +119,11 @@ class RecetaDetailFragment : Fragment() {
         binding.recetaDetalleFavorita.setOnClickListener {
             // Lógica que se ejecuta cuando se hace clic en fav
             receta.favorita = !receta.favorita
+            lifecycleScope.launch {
+                db.recetaDao().update(receta)
+            }
             binding.recetaDetalleFavorita.setImageResource(getHeartIcon(receta.favorita))
         }
-
-
-        //binding.tvDescription.text = show.description
-        //binding.tvYear.text = show.year
-        //binding.swFav.isChecked = show.isFavorite
-        //binding.coverImg.setImageResource(show.image)
-        //binding.bannerImg.setImageResource(show.banner)
     }
 
     private suspend fun fetchPasos(): Instructions {

@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
+import es.unex.giis.asee.gepeto.data.Session
 import es.unex.giis.asee.gepeto.database.GepetoDatabase
 
 import es.unex.giis.asee.gepeto.databinding.ActivityLoginBinding
@@ -62,11 +63,11 @@ class LoginActivity : AppCompatActivity() {
     private fun readSettings(){
         val preferences = PreferenceManager.getDefaultSharedPreferences(this).all
 
-        val rememberme = preferences["rememberme"] as Boolean? ?: false
+        val rememberMe = preferences["rememberme"] as Boolean? ?: false
         val username = preferences["username"] as String? ?: ""
         val password = preferences["password"] as String? ?: ""
 
-        if (rememberme) {
+        if (rememberMe) {
             binding.etUsername.setText(username)
             binding.etPassword.setText(password)
         }
@@ -80,7 +81,7 @@ class LoginActivity : AppCompatActivity() {
         with(binding) {
 
             btLogin.setOnClickListener {
-                checkLogin()
+                correctLogin()
             }
 
             btRegister.setOnClickListener {
@@ -92,25 +93,30 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
-    private fun checkLogin(){
-        val check = CredentialCheck.login(binding.etUsername.text.toString(), binding.etPassword.text.toString())
-        if (!check.fail){
-            lifecycleScope.launch{
-                val user = db?.userDao()?.findByName(binding.etUsername.text.toString()) //?: User(-1, etUsername.text.toString(), etPassword.text.toString())
-                if (user != null) {
-                    // db.userDao().insert(User(-1, etUsername.text.toString(), etPassword.text.toString()))
-                    val check = CredentialCheck.passwordOk(binding.etPassword.text.toString(), user.password)
-                    if (check.fail) notifyInvalidCredentials(check.msg)
-                    else navigateToHomeActivity(user!!, check.msg)
-                }
-                else notifyInvalidCredentials("Invalid username")
-            }
+
+    private fun correctLogin(){
+        val credentialCheck = CredentialCheck.login(binding.etUsername.text.toString(), binding.etPassword.text.toString())
+
+        if (credentialCheck.fail) {
+            notifyInvalidCredentials(credentialCheck.msg)
+            return
         }
-        else notifyInvalidCredentials(check.msg)
+
+        lifecycleScope.launch{
+            val user = db?.userDao()?.findByName(binding.etUsername.text.toString()) //?: User(-1, etUsername.text.toString(), etPassword.text.toString())
+            if (user != null) {
+                // db.userDao().insert(User(-1, etUsername.text.toString(), etPassword.text.toString()))
+                val passwordCheck = CredentialCheck.passwordOk(binding.etPassword.text.toString(), user.password)
+                if (passwordCheck.fail) notifyInvalidCredentials(passwordCheck.msg)
+                else navigateToHomeActivity(user)
+            }
+            else notifyInvalidCredentials("Invalid username")
+        }
     }
 
-    private fun navigateToHomeActivity(user: User, msg: String) {
-        // Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+    private fun navigateToHomeActivity(user: User) {
+        Toast.makeText(this, "Welcome ${user.name}!!", Toast.LENGTH_SHORT).show()
+        Session.setValue("user", user)
         HomeActivity.start(this, user)
     }
 

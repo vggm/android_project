@@ -1,6 +1,5 @@
 package es.unex.giis.asee.gepeto.view.home.recetas
 
-import android.opengl.Visibility
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,14 +8,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import es.unex.giis.asee.gepeto.adapters.HistorialAdapter
-import es.unex.giis.asee.gepeto.api.APIError
-import es.unex.giis.asee.gepeto.api.getNetworkService
-import es.unex.giis.asee.gepeto.data.api.Recipes
-import es.unex.giis.asee.gepeto.data.toRecipe
+import es.unex.giis.asee.gepeto.adapters.RecetasAdapter
+import es.unex.giis.asee.gepeto.data.Session
 import es.unex.giis.asee.gepeto.database.GepetoDatabase
 import es.unex.giis.asee.gepeto.databinding.FragmentHistorialBinding
 import es.unex.giis.asee.gepeto.model.Receta
+import es.unex.giis.asee.gepeto.model.User
 import kotlinx.coroutines.launch
 
 
@@ -32,7 +29,7 @@ class HistorialFragment : Fragment() {
 
     private var _binding: FragmentHistorialBinding? = null
     private val binding get() = _binding!!
-    private lateinit var adapter: HistorialAdapter
+    private lateinit var adapter: RecetasAdapter
 
     override fun onAttach(context: android.content.Context) {
         super.onAttach(context)
@@ -44,7 +41,6 @@ class HistorialFragment : Fragment() {
         }
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -54,32 +50,37 @@ class HistorialFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        loadRecetasFromDB()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        obtenerRecetasFromDB()
         setUpRecyclerView()
+        loadRecetasFromDB()
     }
 
-    private fun obtenerRecetasFromDB() {
+    private fun loadRecetasFromDB() {
         lifecycleScope.launch {
-
-            recetas = db.recetaDao().getUserConRecetas(1).recetas ?: emptyList()
+            val user = Session.getValue("user") as User
+            recetas = db.recetaDao().getUserConRecetas(user.userId!!).recetas
             if ( recetas.isEmpty() ) {
                 Toast.makeText(context, "No hay recetas en la base de datos", Toast.LENGTH_SHORT).show()
             }
             adapter.updateData(recetas)
             binding.spinner.visibility = View.GONE
-
         }
     }
 
     private fun setUpRecyclerView() {
-        adapter = HistorialAdapter(recetas = recetas, onClick = {
-            listener.onRecetaClick(it)
-        },
+        adapter = RecetasAdapter(recetas = emptyList(),
+            onClick = {
+                listener.onRecetaClick(it)
+            },
             onLongClick = {
-                Toast.makeText(context, "long click on: "+it.nombre, Toast.LENGTH_SHORT).show()
+                setRecetaFav(it)
             }
             , context = context
         )
@@ -87,7 +88,18 @@ class HistorialFragment : Fragment() {
             rvHistorialList.layoutManager = LinearLayoutManager(context)
             rvHistorialList.adapter = adapter
         }
-        android.util.Log.d("RecetasFragment", "setUpRecyclerView")
+    }
+
+    private fun setRecetaFav(receta: Receta) {
+
+        if (receta.favorita) return
+
+        lifecycleScope.launch {
+            receta.favorita = !receta.favorita
+            db.recetaDao().update(receta)
+            loadRecetasFromDB()
+            Toast.makeText(context, "Receta añadida a favoritos!", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onDestroyView() {

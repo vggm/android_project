@@ -36,7 +36,6 @@ class CredentialCheck private constructor() {
         )
 
         fun login(username: String, password: String): CredentialCheck {
-            return checks[0]
             return if (username.isBlank() || username.length < MINCHARS) checks[1]
             else if (password.isBlank() || password.length < MINCHARS) checks[2]
             else checks[0]

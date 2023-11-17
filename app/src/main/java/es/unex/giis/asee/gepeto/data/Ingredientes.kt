@@ -1,5 +1,7 @@
 package es.unex.giis.asee.gepeto.data
 
+import java.util.Locale
+
 val todosLosIngredientes = listOf(
     "5 spice powder",
     "acorn squash",
@@ -1002,4 +1004,4 @@ val todosLosIngredientes = listOf(
     "yogurt",
     "yukon gold potato",
 
-    )
+    ).map { it.capitalize(Locale.ROOT) }

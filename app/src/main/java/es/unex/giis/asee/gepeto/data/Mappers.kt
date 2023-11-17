@@ -17,7 +17,7 @@ fun RecipesItem.toRecipe() = Receta(
     favorita = false,
     ingredientes = (usedIngredients.map { it.name } + missedIngredients.map { it.name }).joinToString (separator = ";"),
     equipamientos = "",
-    imagen = R.drawable.plato_ejemplo,
+    imagen = R.drawable.ejemplo_plato,
     imagenPath = image
 )
 

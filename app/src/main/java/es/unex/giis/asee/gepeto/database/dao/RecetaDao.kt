@@ -27,6 +27,9 @@ interface RecetaDao {
     @Insert( onConflict = OnConflictStrategy.IGNORE )
     suspend fun insertUsuarioReceta ( UsuarioRecetasCrossRef: UsuarioRecetasCrossRef )
 
+    @Update( onConflict = OnConflictStrategy.REPLACE )
+    suspend fun update( receta: Receta )
+
     @Delete()
     suspend fun delete( receta: Receta )
 

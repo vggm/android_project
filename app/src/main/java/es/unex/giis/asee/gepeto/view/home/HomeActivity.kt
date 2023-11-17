@@ -80,11 +80,9 @@ class HomeActivity :
             if ((destination.id == R.id.recetaDetailFragment) or
                 (destination.id == R.id.observacionesFragment) or
                 (destination.id == R.id.settingsFragment)){
-                //   binding.toolbar.visibility = View.GONE
-                binding.toolbar.menu.clear()
+//                binding.toolbar.menu.clear()
                 binding.bottomNavigation.visibility = View.GONE
             } else {
-                binding.toolbar.visibility = View.VISIBLE
                 binding.bottomNavigation.visibility = View.VISIBLE
             }
         }

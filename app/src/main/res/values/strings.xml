@@ -13,7 +13,7 @@
     <string name="lista_option">Lista</string>
     <string name="equipamiento_option">Equipamiento</string>
     <string name="favoritas_option">Favoritas</string>
-    <string name="ingredientes_option">Ingredientes</string>
+    <string name="ingredientes_option">Crear Receta</string>
     <string name="observaciones_option">Observaciones</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="action_settings">settings</string>
@@ -38,4 +38,5 @@
     <string name="send_suggestion_title">Enviar sugerencia</string>
     <string name="reset_suggestion_title">Resetear sugerencia</string>
     <string name="edit_suggestion_title">Escribir sugerencia</string>
+    <string name="crear_receta_button">Crear Receta</string>
 </resources>
