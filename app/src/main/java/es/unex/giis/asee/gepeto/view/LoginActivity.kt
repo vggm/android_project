@@ -87,10 +87,6 @@ class LoginActivity : AppCompatActivity() {
             btRegister.setOnClickListener {
                 navigateToJoin()
             }
-
-            btWebsiteLink.setOnClickListener {
-                navigateToRecover()
-            }
         }
     }
 
