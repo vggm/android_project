@@ -7,20 +7,19 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import es.unex.giis.asee.gepeto.R
+import es.unex.giis.asee.gepeto.data.Session
 
 import es.unex.giis.asee.gepeto.model.User
 import es.unex.giis.asee.gepeto.view.home.recetas.FavoritasFragment
 import es.unex.giis.asee.gepeto.view.home.recetas.HistorialFragment
 import es.unex.giis.asee.gepeto.databinding.ActivityHomeBinding
 import es.unex.giis.asee.gepeto.model.Receta
-import es.unex.giis.asee.gepeto.view.home.recetas.RecetasFragment
 
 import es.unex.giis.asee.gepeto.view.home.recetas.RecetasFragmentDirections
 import java.util.TreeSet
@@ -55,12 +54,10 @@ class HomeActivity :
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val user = intent.getSerializableExtra(USER_INFO) as User
-
-        setUpUI(user)
+        setUpUI()
     }
 
-    fun setUpUI(user: User) {
+    private fun setUpUI() {
         binding.bottomNavigation.setupWithNavController(navController)
 
         appBarConfiguration = AppBarConfiguration(
@@ -96,13 +93,15 @@ class HomeActivity :
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.appbar_menu, menu)
 
-//        val searchItem = menu?.findItem(R.id.action_search)
-//        val searchView = searchItem?.actionView as SearchView
-
         // Configure the search info and add any event listeners.
         return super.onCreateOptionsMenu(menu)
     }
 
+    fun mostrarLupaAppbar ( mostrar: Boolean ) {
+        val searchView = binding.toolbar.menu.findItem(R.id.action_search)
+        if (searchView != null)
+            searchView.isVisible = mostrar
+    }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_settings -> {
@@ -140,6 +139,11 @@ class HomeActivity :
         val action = ObservacionesFragmentDirections
             .actionObservacionesFragmentToRecetaDetailFragment(receta)
         navController.navigate(action)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Session.clear() // Clear session on logout
     }
 }
 

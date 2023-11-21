@@ -14,6 +14,7 @@ import es.unex.giis.asee.gepeto.database.GepetoDatabase
 import es.unex.giis.asee.gepeto.databinding.FragmentFavoritasBinding
 import es.unex.giis.asee.gepeto.model.Receta
 import es.unex.giis.asee.gepeto.model.User
+import es.unex.giis.asee.gepeto.view.home.HomeActivity
 import kotlinx.coroutines.launch
 
 
@@ -52,12 +53,17 @@ class FavoritasFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         loadRecetasFavoritas()
+        (activity as HomeActivity?)?.mostrarLupaAppbar(true)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        (activity as HomeActivity?)?.mostrarLupaAppbar(false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpRecyclerView()
-        loadRecetasFavoritas()
     }
 
     private fun setUpRecyclerView() {
@@ -79,14 +85,12 @@ class FavoritasFragment : Fragment() {
     private fun loadRecetasFavoritas () {
         lifecycleScope.launch {
             val user = Session.getValue("user") as User
-            recetasFav = db.recetaDao().getUserConRecetas(user.userId!!).recetas
-
-            if ( recetasFav.isEmpty() )
-                Toast.makeText(context, "No hay recetas en la base de datos", Toast.LENGTH_SHORT).show()
-
-            else adapter.updateData(recetasFav.filter { it.favorita })
+            recetasFav = db.recetaDao().getUserConRecetas(user.userId!!).recetas.filter { it.favorita }
 
             binding.spinner.visibility = View.GONE
+            binding.noHayFavoritas.visibility = if (recetasFav.isEmpty()) View.VISIBLE else View.GONE
+
+            adapter.updateData(recetasFav)
         }
     }
 

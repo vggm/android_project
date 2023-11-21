@@ -48,4 +48,6 @@
     <string name="login">Inicia Sesión</string>
     <string name="titulo">La Nevera de \nGePeTo</string>
     <string name="register">Registrarse</string>
+    <string name="no_hay_recetas">No existen Recetas</string>
+    <string name="no_hay_favortias">No existen Favoritos</string>
 </resources>

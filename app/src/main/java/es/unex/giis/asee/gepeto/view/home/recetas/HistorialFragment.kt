@@ -14,6 +14,7 @@ import es.unex.giis.asee.gepeto.database.GepetoDatabase
 import es.unex.giis.asee.gepeto.databinding.FragmentHistorialBinding
 import es.unex.giis.asee.gepeto.model.Receta
 import es.unex.giis.asee.gepeto.model.User
+import es.unex.giis.asee.gepeto.view.home.HomeActivity
 import kotlinx.coroutines.launch
 
 
@@ -53,24 +54,33 @@ class HistorialFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         loadRecetasFromDB()
+        (activity as HomeActivity?)?.mostrarLupaAppbar(true)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        (activity as HomeActivity?)?.mostrarLupaAppbar(false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setUpRecyclerView()
-        loadRecetasFromDB()
     }
 
     private fun loadRecetasFromDB() {
         lifecycleScope.launch {
             val user = Session.getValue("user") as User
             recetas = db.recetaDao().getUserConRecetas(user.userId!!).recetas
-            if ( recetas.isEmpty() ) {
-                Toast.makeText(context, "No hay recetas en la base de datos", Toast.LENGTH_SHORT).show()
-            }
-            adapter.updateData(recetas)
             binding.spinner.visibility = View.GONE
+
+            if ( recetas.isEmpty() ) {
+                binding.noHayRecetas.visibility = View.VISIBLE
+            } else {
+                binding.noHayRecetas.visibility = View.GONE
+            }
+
+            adapter.updateData(recetas)
         }
     }
 
@@ -97,7 +107,6 @@ class HistorialFragment : Fragment() {
         lifecycleScope.launch {
             receta.favorita = !receta.favorita
             db.recetaDao().update(receta)
-            loadRecetasFromDB()
             Toast.makeText(context, "Receta añadida a favoritos!", Toast.LENGTH_SHORT).show()
         }
     }

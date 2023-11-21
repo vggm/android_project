@@ -17,6 +17,7 @@ import es.unex.giis.asee.gepeto.data.toRecipe
 import es.unex.giis.asee.gepeto.database.GepetoDatabase
 import es.unex.giis.asee.gepeto.databinding.FragmentObservacionesBinding
 import es.unex.giis.asee.gepeto.model.Receta
+import es.unex.giis.asee.gepeto.model.User
 import kotlinx.coroutines.launch
 import java.lang.RuntimeException
 import kotlin.random.Random
@@ -42,7 +43,7 @@ class ObservacionesFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentObservacionesBinding.inflate(inflater, container, false)
         return _binding.root
@@ -61,7 +62,7 @@ class ObservacionesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val equipamientoSet = Session.getValue("equipamientosSeleccionados") as? TreeSet<String> ?: TreeSet()
+        val equipamientoSet = Session.getValue("equipamientosSeleccionados") as? TreeSet<*> ?: TreeSet<String>()
 
         with (binding) {
             ingredientes.text = args.ingredientes
@@ -71,38 +72,23 @@ class ObservacionesFragment : Fragment() {
 
             crearRecetaBtn.setOnClickListener {
 
-                if (_recipe == null) {
-                    lifecycleScope.launch {
-                        if (_recipe == null){
-                            try {
-
-                                _recipe = fetchMeal().toRecipe()
-                                print(_recipe)
-                                listener.onGenerarRecetaClick(_recipe!!)
-
-                            } catch (e: APIError) {
-                                Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
-                            }
-                        }
+                lifecycleScope.launch {
+                    try {
+                        _recipe = fetchMeal().toRecipe()
+                        val user = Session.getValue("user") as User
+                        db.recetaDao().insertAndRelate(_recipe!!, user.userId!!)
+                        listener.onGenerarRecetaClick(_recipe!!)
+                    } catch (e: APIError) {
+                        Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
                     }
-                }
-
-                if (_recipe != null) {
-
-                    lifecycleScope.launch {
-                        db.recetaDao().insertAndRelate(_recipe!!, 1)
-                    }
-
-                    listener.onGenerarRecetaClick(_recipe!!)
-                    return@setOnClickListener
                 }
             }
         }
     }
 
     private suspend fun fetchMeal(): RecipesItem {
-        var recipe: RecipesItem
-        var recipes: Recipes
+        val recipe: RecipesItem
+        val recipes: Recipes
         try {
 
             //crear una variable Ingredientes que será un string que contenga todos los valore de args.ingredientes separados por un ",+"
