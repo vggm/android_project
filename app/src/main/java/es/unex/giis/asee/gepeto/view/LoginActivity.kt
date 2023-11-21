@@ -6,8 +6,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
+import es.unex.giis.asee.gepeto.R
 import es.unex.giis.asee.gepeto.data.Session
 import es.unex.giis.asee.gepeto.database.GepetoDatabase
 
@@ -87,6 +89,11 @@ class LoginActivity : AppCompatActivity() {
             btRegister.setOnClickListener {
                 navigateToJoin()
             }
+
+            btRestore.setOnClickListener {
+                navigateToRestore()
+            }
+
         }
     }
 
@@ -120,14 +127,16 @@ class LoginActivity : AppCompatActivity() {
         JoinActivity.start(this, responseLauncher)
     }
 
-    private fun navigateToRecover() {
-        val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://trakt.tv/"))
-        startActivity(webIntent)
+    private fun navigateToRestore() {
+        val showPopUp = PopUpFragment()
+        showPopUp.show(supportFragmentManager, "showPopUp")
     }
+
 
     private fun notifyInvalidCredentials(msg: String) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
+
 
 
 }
