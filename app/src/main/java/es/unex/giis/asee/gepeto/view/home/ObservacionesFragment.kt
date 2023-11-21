@@ -66,23 +66,26 @@ class ObservacionesFragment : Fragment() {
         with (binding) {
             ingredientes.text = args.ingredientes
 
-            if (_recipe == null) {
-                lifecycleScope.launch {
-                    if (_recipe == null){
-                        try {
-
-                            _recipe = fetchMeal().toRecipe()
-                            print(_recipe)
-                        } catch (e: APIError) {
-                            Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
-            }
 
             equipamiento.text = equipamientoSet.joinToString(separator = ", ", postfix = "."  )
 
             crearRecetaBtn.setOnClickListener {
+
+                if (_recipe == null) {
+                    lifecycleScope.launch {
+                        if (_recipe == null){
+                            try {
+
+                                _recipe = fetchMeal().toRecipe()
+                                print(_recipe)
+                                listener.onGenerarRecetaClick(_recipe!!)
+
+                            } catch (e: APIError) {
+                                Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
+                }
 
                 if (_recipe != null) {
 
