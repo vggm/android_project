@@ -4,7 +4,7 @@
     <item
         android:id="@+id/recetasFragment"
         android:enabled="true"
-        android:icon="@drawable/food"
+        android:icon="@drawable/recipe_book"
         android:title="@string/recetas_option"
         app:showAsAction="ifRoom" />
     <item
@@ -16,7 +16,7 @@
     <item
         android:id="@+id/ingredientesFragment"
         android:enabled="true"
-        android:icon="@drawable/fridge"
+        android:icon="@drawable/food"
         android:title="@string/ingredientes_option"
         app:showAsAction="ifRoom" />
     <item
