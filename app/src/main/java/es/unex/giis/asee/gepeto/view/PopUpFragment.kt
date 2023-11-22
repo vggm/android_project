@@ -67,8 +67,8 @@ class PopUpFragment : DialogFragment() {
                 else{
                     val user = db?.userDao()?.findByName(restUsername.text.toString()) //?: User(-1, etUsername.text.toString(), etPassword.text.toString())
                     if (user != null) {
-                        db?.userDao()?.update(User(user.userId, username, newPassword))
                         Toast.makeText(context, "Contraseña cambiada", Toast.LENGTH_SHORT).show()
+                        db?.userDao()?.update(User(user.userId, username, newPassword))
                     } else {
                         Toast.makeText(context, "Usuario no encontrado", Toast.LENGTH_SHORT).show()
                     }
