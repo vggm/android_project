@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="50dp"
+<<<<<<< HEAD
     android:paddingBottom="150dp"
     tools:context=".view.home.recetas.HistorialFragment">
 
@@ -49,5 +50,28 @@
 
     </RelativeLayout>
 
+=======
+    android:paddingBottom="200dp"
+    tools:context=".view.home.recetas.HistorialFragment">
+
+    <ProgressBar
+        android:id="@+id/spinner"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_historial_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+>>>>>>> 3d4a9574852490036a2989aa5871ebb439bbf660
 
 </androidx.constraintlayout.widget.ConstraintLayout>

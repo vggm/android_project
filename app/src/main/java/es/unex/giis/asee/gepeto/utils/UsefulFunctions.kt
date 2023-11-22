@@ -2,6 +2,7 @@ package es.unex.giis.asee.gepeto.utils
 
 import android.text.Editable
 import android.text.TextWatcher
+<<<<<<< HEAD
 import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.EditText
@@ -32,6 +33,12 @@ fun ocultarBottomNavigation ( view: View, bottomNavigationView: BottomNavigation
     })
 }
 
+=======
+import android.widget.EditText
+import es.unex.giis.asee.gepeto.adapters.ItemSwapAdapter
+import java.util.TreeSet
+
+>>>>>>> 3d4a9574852490036a2989aa5871ebb439bbf660
 fun filtrarLista ( buscador: EditText, itemSet: TreeSet<String>, adapter: ItemSwapAdapter ) {
     buscador.addTextChangedListener( object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {

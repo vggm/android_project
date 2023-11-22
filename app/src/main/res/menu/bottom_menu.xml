@@ -4,7 +4,11 @@
     <item
         android:id="@+id/recetasFragment"
         android:enabled="true"
+<<<<<<< HEAD
         android:icon="@drawable/recipe_book"
+=======
+        android:icon="@drawable/food"
+>>>>>>> 3d4a9574852490036a2989aa5871ebb439bbf660
         android:title="@string/recetas_option"
         app:showAsAction="ifRoom" />
     <item
@@ -16,7 +20,11 @@
     <item
         android:id="@+id/ingredientesFragment"
         android:enabled="true"
+<<<<<<< HEAD
         android:icon="@drawable/food"
+=======
+        android:icon="@drawable/fridge"
+>>>>>>> 3d4a9574852490036a2989aa5871ebb439bbf660
         android:title="@string/ingredientes_option"
         app:showAsAction="ifRoom" />
     <item

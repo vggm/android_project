@@ -21,5 +21,23 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent" />
 
+<<<<<<< HEAD
+=======
+    <Button
+        android:id="@+id/crear_receta_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:insetLeft="10dp"
+        android:insetRight="10dp"
+        android:insetBottom="150dp"
+        android:backgroundTint="@color/button_color"
+        android:text="@string/crear_receta"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toBottomOf="@+id/pager"
+        app:layout_constraintEnd_toEndOf="@+id/pager"
+        app:layout_constraintStart_toStartOf="parent" />
+
+>>>>>>> 3d4a9574852490036a2989aa5871ebb439bbf660
 
 </androidx.constraintlayout.widget.ConstraintLayout>

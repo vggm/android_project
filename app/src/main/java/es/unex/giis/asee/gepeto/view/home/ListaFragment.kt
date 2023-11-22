@@ -6,15 +6,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+<<<<<<< HEAD
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import es.unex.giis.asee.gepeto.R
+=======
+>>>>>>> 3d4a9574852490036a2989aa5871ebb439bbf660
 import es.unex.giis.asee.gepeto.adapters.ItemSwapAdapter
 import es.unex.giis.asee.gepeto.adapters.TodoAdapter
 import es.unex.giis.asee.gepeto.data.Session
 import es.unex.giis.asee.gepeto.data.todosLosIngredientes
 import es.unex.giis.asee.gepeto.databinding.FragmentListaBinding
 import es.unex.giis.asee.gepeto.utils.filtrarLista
+<<<<<<< HEAD
 import es.unex.giis.asee.gepeto.utils.ocultarBottomNavigation
+=======
+>>>>>>> 3d4a9574852490036a2989aa5871ebb439bbf660
 import java.util.TreeSet
 
 class ListaFragment : Fragment() {
@@ -61,9 +67,12 @@ class ListaFragment : Fragment() {
         setUpAllRecyclerView()
         setUpSelectedRecyclerView()
 
+<<<<<<< HEAD
         val bottomNavigationView = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation)
         ocultarBottomNavigation(view, bottomNavigationView)
 
+=======
+>>>>>>> 3d4a9574852490036a2989aa5871ebb439bbf660
         filtrarLista(
             binding.buscadorDeIngredientes,
             ingredientesSet,
