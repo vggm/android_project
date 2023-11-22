@@ -2,7 +2,14 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("androidx.navigation.safeargs.kotlin")
+<<<<<<< HEAD
     id("com.google.devtools.ksp")
+=======
+<<<<<<< HEAD
+    id("com.google.devtools.ksp")
+=======
+>>>>>>> 3d4a9574852490036a2989aa5871ebb439bbf660
+>>>>>>> b93cd7764f434cc36895631760398a9f614255f6
 }
 
 android {
@@ -44,6 +51,10 @@ android {
 
 dependencies {
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> b93cd7764f434cc36895631760398a9f614255f6
 
     val room_version = "2.5.0"
 
@@ -62,6 +73,11 @@ dependencies {
 
     // optional - Test helpers
     testImplementation("androidx.room:room-testing:$room_version")
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 3d4a9574852490036a2989aa5871ebb439bbf660
+>>>>>>> b93cd7764f434cc36895631760398a9f614255f6
     val nav_version = "2.5.3"
 
     // Kotlin

@@ -6,6 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="50dp"
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> b93cd7764f434cc36895631760398a9f614255f6
     android:paddingBottom="150dp"
     tools:context=".view.home.recetas.FavoritasFragment">
 
@@ -48,5 +52,21 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     </RelativeLayout>
+<<<<<<< HEAD
+=======
+=======
+    android:paddingBottom="200dp"
+    tools:context=".view.home.recetas.FavoritasFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_favoritas_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+>>>>>>> 3d4a9574852490036a2989aa5871ebb439bbf660
+>>>>>>> b93cd7764f434cc36895631760398a9f614255f6
 
 </androidx.constraintlayout.widget.ConstraintLayout>

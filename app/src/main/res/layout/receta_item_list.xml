@@ -58,6 +58,19 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/receta_nombre"/>
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+
+
+
+
+
+
+
+>>>>>>> 3d4a9574852490036a2989aa5871ebb439bbf660
+>>>>>>> b93cd7764f434cc36895631760398a9f614255f6
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
