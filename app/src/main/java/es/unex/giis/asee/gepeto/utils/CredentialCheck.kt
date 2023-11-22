@@ -47,6 +47,11 @@ class CredentialCheck private constructor() {
             else checks[0]
         }
 
+        fun newPasswordOk(pass1: String): CredentialCheck {
+            return if (pass1.isBlank() || pass1.length < MINCHARS) checks[2]
+            else checks[0]
+        }
+
         fun join(username: String, password: String, repassword: String): CredentialCheck {
             return if (username.isBlank() || username.length < MINCHARS) checks[1]
             else if (password.isBlank() || password.length < MINCHARS) checks[2]

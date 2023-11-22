@@ -53,15 +53,25 @@ class PopUpFragment : DialogFragment() {
     //funcion que cambia la contraseña del usuario que se la ha olvidado
     private fun restorePassword() {
         with(binding) {
+            val username = restUsername.text.toString()
+            val newPassword = newPassword.text.toString()
 
             //dado el nombre de usuario, se busca en la base de datos y se actualiza la contraseña antigua por la nueva
             lifecycleScope.launch {
-                val user = db?.userDao()?.findByName(restUsername.text.toString()) //?: User(-1, etUsername.text.toString(), etPassword.text.toString())
-                if (user != null) {
-                    db?.userDao()?.update(User(user.userId, restUsername.text.toString(), newPassword.text.toString()))
-                    Toast.makeText(context, "Contraseña cambiada", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(context, "Usuario no encontrado", Toast.LENGTH_SHORT).show()
+                //comprueba si la contraseña es correcta
+                val check = CredentialCheck.newPasswordOk(newPassword)
+                if (check.fail) {
+                    Toast.makeText(context, check.msg, Toast.LENGTH_SHORT).show()
+                    return@launch
+                }
+                else{
+                    val user = db?.userDao()?.findByName(restUsername.text.toString()) //?: User(-1, etUsername.text.toString(), etPassword.text.toString())
+                    if (user != null) {
+                        db?.userDao()?.update(User(user.userId, username, newPassword))
+                        Toast.makeText(context, "Contraseña cambiada", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(context, "Usuario no encontrado", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
