@@ -34,6 +34,9 @@
         <item name="android:titleTextColor">#3F51B5</item>
     </style>
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3d4a9574852490036a2989aa5871ebb439bbf660
     <style name="Theme.GePeTo" parent="Base.Theme.GePeTo" />
 </resources>
