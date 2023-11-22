@@ -8,19 +8,25 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import es.unex.giis.asee.gepeto.R
 import es.unex.giis.asee.gepeto.adapters.RecetasAdapter
 import es.unex.giis.asee.gepeto.data.Session
 import es.unex.giis.asee.gepeto.database.GepetoDatabase
 import es.unex.giis.asee.gepeto.databinding.FragmentHistorialBinding
 import es.unex.giis.asee.gepeto.model.Receta
 import es.unex.giis.asee.gepeto.model.User
+import es.unex.giis.asee.gepeto.utils.filtrarLista
+import es.unex.giis.asee.gepeto.utils.filtrarReceta
+import es.unex.giis.asee.gepeto.utils.ocultarBottomNavigation
 import es.unex.giis.asee.gepeto.view.home.HomeActivity
 import kotlinx.coroutines.launch
+import java.util.TreeSet
 
 
 class HistorialFragment : Fragment() {
 
-    private var recetas: List<Receta> = emptyList()
+    var recetas: List<Receta> = emptyList()
     private lateinit var db: GepetoDatabase
 
     private lateinit var listener: OnRecetaClickListener
@@ -54,12 +60,6 @@ class HistorialFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         loadRecetasFromDB()
-        (activity as HomeActivity?)?.mostrarLupaAppbar(true)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        (activity as HomeActivity?)?.mostrarLupaAppbar(false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -75,10 +75,18 @@ class HistorialFragment : Fragment() {
             binding.spinner.visibility = View.GONE
 
             if ( recetas.isEmpty() ) {
+                binding.buscadorRecetaContainer.visibility = View.GONE
                 binding.noHayRecetas.visibility = View.VISIBLE
             } else {
                 binding.noHayRecetas.visibility = View.GONE
+                binding.buscadorRecetaContainer.visibility = View.VISIBLE
             }
+
+            filtrarReceta(
+                binding.buscadorDeRecetas,
+                recetas,
+                adapter
+            )
 
             adapter.updateData(recetas)
         }

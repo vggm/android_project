@@ -7,21 +7,28 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
+import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import es.unex.giis.asee.gepeto.R
+import es.unex.giis.asee.gepeto.adapters.RecetasAdapter
 import es.unex.giis.asee.gepeto.data.Session
+import es.unex.giis.asee.gepeto.database.GepetoDatabase
 
 import es.unex.giis.asee.gepeto.model.User
 import es.unex.giis.asee.gepeto.view.home.recetas.FavoritasFragment
 import es.unex.giis.asee.gepeto.view.home.recetas.HistorialFragment
 import es.unex.giis.asee.gepeto.databinding.ActivityHomeBinding
 import es.unex.giis.asee.gepeto.model.Receta
+import es.unex.giis.asee.gepeto.view.home.recetas.RecetasFragment
 
 import es.unex.giis.asee.gepeto.view.home.recetas.RecetasFragmentDirections
+import kotlinx.coroutines.launch
 import java.util.TreeSet
 
 class HomeActivity :
@@ -32,7 +39,7 @@ class HomeActivity :
     ObservacionesFragment.OnGenerarRecetaListener {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var binding: ActivityHomeBinding
+    lateinit var binding: ActivityHomeBinding
 
     private val navController by lazy {
         (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment).navController
@@ -95,12 +102,6 @@ class HomeActivity :
 
         // Configure the search info and add any event listeners.
         return super.onCreateOptionsMenu(menu)
-    }
-
-    fun mostrarLupaAppbar ( mostrar: Boolean ) {
-        val searchView = binding.toolbar.menu.findItem(R.id.action_search)
-        if (searchView != null)
-            searchView.isVisible = mostrar
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {

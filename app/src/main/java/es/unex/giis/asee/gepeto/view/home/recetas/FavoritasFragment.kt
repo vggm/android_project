@@ -8,13 +8,16 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import es.unex.giis.asee.gepeto.R
 import es.unex.giis.asee.gepeto.adapters.RecetasAdapter
 import es.unex.giis.asee.gepeto.data.Session
 import es.unex.giis.asee.gepeto.database.GepetoDatabase
 import es.unex.giis.asee.gepeto.databinding.FragmentFavoritasBinding
 import es.unex.giis.asee.gepeto.model.Receta
 import es.unex.giis.asee.gepeto.model.User
-import es.unex.giis.asee.gepeto.view.home.HomeActivity
+import es.unex.giis.asee.gepeto.utils.filtrarReceta
+import es.unex.giis.asee.gepeto.utils.ocultarBottomNavigation
 import kotlinx.coroutines.launch
 
 
@@ -25,7 +28,7 @@ class FavoritasFragment : Fragment() {
     }
 
     private lateinit var db: GepetoDatabase
-    private lateinit var recetasFav: List<Receta>
+    private var recetasFav: List<Receta> = emptyList()
 
     private var _binding: FragmentFavoritasBinding? = null
     private val binding get() = _binding!!
@@ -53,12 +56,6 @@ class FavoritasFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         loadRecetasFavoritas()
-        (activity as HomeActivity?)?.mostrarLupaAppbar(true)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        (activity as HomeActivity?)?.mostrarLupaAppbar(false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -88,7 +85,19 @@ class FavoritasFragment : Fragment() {
             recetasFav = db.recetaDao().getUserConRecetas(user.userId!!).recetas.filter { it.favorita }
 
             binding.spinner.visibility = View.GONE
-            binding.noHayFavoritas.visibility = if (recetasFav.isEmpty()) View.VISIBLE else View.GONE
+            if ( recetasFav.isEmpty() ) {
+                binding.buscadorFavoritasContainer.visibility = View.GONE
+                binding.noHayFavoritas.visibility = View.VISIBLE
+            } else {
+                binding.noHayFavoritas.visibility = View.GONE
+                binding.buscadorFavoritasContainer.visibility = View.VISIBLE
+            }
+
+            filtrarReceta(
+                binding.buscadorDeFavoritas,
+                recetasFav,
+                adapter
+            )
 
             adapter.updateData(recetasFav)
         }
