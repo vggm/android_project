@@ -1,58 +1,62 @@
 package es.unex.giis.asee.gepeto.model
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.io.Serializable
 
+@Entity
 data class Receta(
-    val idReceta: String,
+    @PrimaryKey(autoGenerate = true) val recetaId: Int?,
     val nombre: String,
-    val descripcion: List<Pasos>,
-    var favorita: Boolean,
-    val ingredientes: List<String> = emptyList(),
-    val equipamientos: List<String> = emptyList(),
+    val descripcion: String,
+    @ColumnInfo( name = "es_favorita" ) var favorita: Boolean,
+    val ingredientes: String,
+    val equipamientos: String,
     val imagen: Int,
-    val imagenPath: String
+    @ColumnInfo( name = "image_path" ) val imagenPath: String
 ) : Serializable {
-    fun getIngredientes(): String {
+    fun getIngredientesPreview(): String {
         //Filtramos los ingredientes que no estén vacíos
-        val ingredientesNoVacios = ingredientes.filter { it.isNotBlank() }
+        val ingredientesNoVacios = ingredientes.split(';')
 
         //Si no hay ingredientes, devolvemos un mensaje
         return if (ingredientesNoVacios.isEmpty()) {
             "No hay ingredientes."
         } else {
             //Si hay ingredientes, los devolvemos separados por "-"
-            ingredientesNoVacios.joinToString(
+            val ingredientesConMayuscula = ingredientesNoVacios.map { it.trim().capitalize() }
+
+            ingredientesConMayuscula.joinToString(
                 separator = ", ",
                 postfix = ".",
-                prefix = "Ingredientes: ",
+                prefix = "Ingredientes: "
             )
         }
     }
-    fun listaIngredientes(): String {
-        //Filtramos los ingredientes que no estén vacíos
-        val ingredientesNoVacios = ingredientes.filter { it.isNotBlank() }
+    fun listaIngredientesDetalles(): String {
 
         //Si no hay ingredientes, devolvemos un mensaje
-        return if (ingredientesNoVacios.isEmpty()) {
+        return if (ingredientes.isEmpty()) {
             "No hay ingredientes."
         } else {
             //Si hay ingredientes, los devolvemos separados por "-"
-            "Ingredientes:\n\n - " + ingredientesNoVacios.joinToString(
+            val ingredientesConMayuscula = ingredientes.split(";").map { it.trim().capitalize() }
+
+            "Ingredientes:\n\n - " + ingredientesConMayuscula.joinToString(
                 separator = "\n - "
             )
         }
     }
 
     fun listaEquipamiento(): String {
-        //Filtramos los ingredientes que no estén vacíos
-        val equipamientoNoVacios = equipamientos.filter { it.isNotBlank() }
 
         //Si no hay ingredientes, devolvemos un mensaje
-        return if (equipamientoNoVacios.isEmpty()) {
+        return if (equipamientos.isEmpty()) {
             "No hay equipamiento."
         } else {
             //Si hay ingredientes, los devolvemos separados por "-"
-            "Equipamiento / Medidas:\n\n - " + equipamientoNoVacios.joinToString(
+            "Equipamiento / Medidas:\n\n - " + equipamientos.split(";").joinToString(
                 separator = "\n - "
             )
         }

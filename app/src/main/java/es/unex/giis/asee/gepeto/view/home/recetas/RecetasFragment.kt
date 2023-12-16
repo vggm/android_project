@@ -40,11 +40,6 @@ class RecetasFragment : Fragment() {
         _binding = FragmentRecetasBinding.inflate(inflater, container, false)
         setUpTabs()
 
-        // Accion del boton: Crear Receta. Redirige a IngredientesFragment
-        binding.crearRecetaButton.setOnClickListener {
-            findNavController().navigate(R.id.ingredientesFragment)
-        }
-
         return binding.root
     }
 

@@ -1,5 +1,6 @@
 package es.unex.giis.asee.gepeto.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,13 +9,14 @@ import com.bumptech.glide.Glide
 import es.unex.giis.asee.gepeto.R
 import es.unex.giis.asee.gepeto.databinding.RecetaItemListBinding
 import es.unex.giis.asee.gepeto.model.Receta
+import java.util.TreeSet
 
-class HistorialAdapter(
+class RecetasAdapter(
     private var recetas: List<Receta>,
     private val onClick: (receta: Receta) -> Unit,
     private val onLongClick: (title: Receta) -> Unit,
     private val context: Context?
-) : RecyclerView.Adapter<HistorialAdapter.RecetaViewHolder>() {
+    ) : RecyclerView.Adapter<RecetasAdapter.RecetaViewHolder>() {
 
     class RecetaViewHolder(
         private val binding: RecetaItemListBinding,
@@ -25,7 +27,7 @@ class HistorialAdapter(
         fun bind(receta: Receta, totalItems: Int) {
             with(binding) {
                 recetaNombre.text = receta.nombre
-                recetaIngredientes.text = receta.getIngredientes()
+                recetaIngredientes.text = receta.getIngredientesPreview()
 
                 //parsea la imagen a int
 
