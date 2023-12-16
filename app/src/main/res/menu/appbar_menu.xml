@@ -2,6 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+<<<<<<< HEAD
+    <item android:id="@+id/action_search"
+        android:title="@string/action_search"
+        android:icon="@drawable/search"
+        app:showAsAction="ifRoom|collapseActionView"
+        app:actionViewClass="androidx.appcompat.widget.SearchView" />
+=======
+    <!--    <item android:id="@+id/action_search"-->
+    <!--        android:title="@string/action_search"-->
+    <!--        android:icon="@drawable/search"-->
+    <!--        app:showAsAction="ifRoom|collapseActionView"-->
+    <!--        app:actionViewClass="androidx.appcompat.widget.SearchView" />-->
+>>>>>>> 3d4a9574852490036a2989aa5871ebb439bbf660
+
 
     <item android:id="@+id/action_settings"
         android:title="@string/action_settings"

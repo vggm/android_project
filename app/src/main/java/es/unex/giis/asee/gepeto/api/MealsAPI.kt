@@ -1,8 +1,8 @@
 package es.unex.giis.asee.gepeto.api
 
-import es.unex.giis.asee.gepeto.data.api.Equipments
 import es.unex.giis.asee.gepeto.data.api.Recipes
 import es.unex.giis.asee.gepeto.data.api.Instructions
+import es.unex.giis.asee.gepeto.model.Pasos
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.converter.gson.GsonConverterFactory
@@ -10,7 +10,8 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-private const val apikey = "apiKey=01056f554f044a46ac4b0a23c19fc6ba"
+//Berrocal - 1.5.2021 - Cambio de API - apiKey=01056f554f044a46ac4b0a23c19fc6ba - apiKey=1541f2b0ab204bc8ab6a8b69be301e86 - apiKey=01056f554f044a46ac4b0a23c19fc6ba
+private const val apikey = "apiKey=1541f2b0ab204bc8ab6a8b69be301e86"
 
 private val service: MealsAPI by lazy {
     val okHttpClient = OkHttpClient.Builder()
@@ -55,10 +56,6 @@ interface MealsAPI {
     //GET https://api.spoonacular.com/recipes/{id}/analyzedInstructions
     @GET("{id}/analyzedInstructions?"+ apikey)
     suspend fun getMealSteps(@Path("id") id: String): Instructions
-
-    //GET https://api.spoonacular.com/recipes/1003464/equipmentWidget.json
-    @GET("{id}/equipmentWidget.json?" + apikey)
-    suspend fun getMealEquipments(@Path("id") id: String): Equipments
 
 }
 class APIError(message: String, cause: Throwable?) : Throwable(message, cause)

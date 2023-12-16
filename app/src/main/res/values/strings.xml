@@ -2,18 +2,30 @@
     <string name="app_name">La Nevera de GePeTo</string>
     <string name="user_string">user</string>
     <string name="password_string">password</string>
+<<<<<<< HEAD
     <string name="tv_login">Login</string>
     <string name="valid_user_msg">Credentials valid!</string>
     <string name="invalid_user_msg">Credentials no valid</string>
     <string name="tv_register">join</string>
     <string name="repeat_password">Repite la Contraseña</string>
+=======
+    <string name="tv_login">login</string>
+    <string name="valid_user_msg">Credentials valid!</string>
+    <string name="invalid_user_msg">Credentials no valid</string>
+    <string name="tv_register">join</string>
+    <string name="repeat_password">repeat password</string>
+>>>>>>> 3d4a9574852490036a2989aa5871ebb439bbf660
     <string name="visit_website">trakt.tv</string>
     <string name="greeting">Hello, %s!</string>
     <string name="recetas_option">Recetas</string>
     <string name="lista_option">Lista</string>
     <string name="equipamiento_option">Equipamiento</string>
     <string name="favoritas_option">Favoritas</string>
+<<<<<<< HEAD
     <string name="ingredientes_option">Crear Receta</string>
+=======
+    <string name="ingredientes_option">Ingredientes</string>
+>>>>>>> 3d4a9574852490036a2989aa5871ebb439bbf660
     <string name="observaciones_option">Observaciones</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="action_settings">settings</string>
@@ -29,6 +41,7 @@
     <string name="advertencia_label">Debe introducrise al menos un ingrediente.</string>
     <string name="preview_de_la_receta">Preview de la receta</string>
     <string name="me_gusta_alt_label">Me Gusta</string>
+<<<<<<< HEAD
     <string name="login_header">Preferencias de login</string>
     <string name="autologin_title">Recordar mi usuario</string>
     <string name="username_title">user</string>
@@ -54,6 +67,6 @@
     <string name="Restore">Recuperar Contraseña</string>
     <string name="no_hay_recetas">No existen Recetas</string>
     <string name="no_hay_favortias">No existen Favoritos</string>
-    <string name="buscar_receta">Buscar receta:</string>
-    <string name="buscar_favorita">Buscar favoritas:</string>
+=======
+>>>>>>> 3d4a9574852490036a2989aa5871ebb439bbf660
 </resources>

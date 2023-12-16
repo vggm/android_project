@@ -5,9 +5,12 @@
     android:id="@+id/home_graphnav"
     app:startDestination="@id/recetasFragment">
 
+<<<<<<< HEAD
     <action
         android:id="@+id/action_home_to_settingsFragment"
         app:destination="@id/settingsFragment" />
+=======
+>>>>>>> 3d4a9574852490036a2989aa5871ebb439bbf660
     <fragment
         android:id="@+id/recetasFragment"
         android:name="es.unex.giis.asee.gepeto.view.home.recetas.RecetasFragment"
@@ -76,9 +79,12 @@
             app:destination="@id/recetaDetailFragment" />
 
     </fragment>
+<<<<<<< HEAD
     <fragment
         android:id="@+id/settingsFragment"
         android:name="es.unex.giis.asee.gepeto.view.home.SettingsFragment"
         android:label="Preferencias"
         tools:layout="@layout/fragment_settings" />
+=======
+>>>>>>> 3d4a9574852490036a2989aa5871ebb439bbf660
 </navigation>

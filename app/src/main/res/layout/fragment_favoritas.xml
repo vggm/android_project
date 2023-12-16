@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="50dp"
+<<<<<<< HEAD
     android:paddingBottom="150dp"
     tools:context=".view.home.recetas.FavoritasFragment">
 
@@ -13,44 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:ignore="MissingConstraints">
-
-        <LinearLayout
-            android:id="@+id/buscador_favoritas_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:paddingTop="4dp"
-            android:background="@color/white" >
-
-            <TextView
-                android:id="@+id/buscar_favorita"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/title_color"
-                android:text="@string/buscar_favorita"
-                android:textSize="22sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/buscador_de_favoritas"
-                style="@style/Widget.AppCompat.EditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:ems="10"
-
-                android:hint="Pumpkin Pie"
-                android:inputType="text"
-                android:textSize="22sp" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_favoritas_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </LinearLayout>
 
         <TextView
             android:id="@+id/no_hay_favoritas"
@@ -76,6 +39,28 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"/>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_favoritas_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </RelativeLayout>
+=======
+    android:paddingBottom="200dp"
+    tools:context=".view.home.recetas.FavoritasFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_favoritas_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+>>>>>>> 3d4a9574852490036a2989aa5871ebb439bbf660
 
 </androidx.constraintlayout.widget.ConstraintLayout>
