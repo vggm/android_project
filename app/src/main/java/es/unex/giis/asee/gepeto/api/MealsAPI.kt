@@ -10,6 +10,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
+//Berrocal - 1.5.2021 - Cambio de API - apiKey=01056f554f044a46ac4b0a23c19fc6ba - apiKey=1541f2b0ab204bc8ab6a8b69be301e86 - apiKey=01056f554f044a46ac4b0a23c19fc6ba
 private const val apikey = "apiKey=1541f2b0ab204bc8ab6a8b69be301e86"
 
 private val service: MealsAPI by lazy {
